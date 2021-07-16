@@ -6,7 +6,7 @@ const { dbConnection } = require('./db/index');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { nuevoLibro, obtenerLibros, actualizarLibro } = require ('./services/libros.service')
+const { agregarLibro, obtenerLibros, actualizarLibro } = require ('./services/libros.service')
 
 async function bootstrap() {
   dbConnection()
@@ -36,7 +36,7 @@ app.use((err, req, res, next) => {
 
 app.post ('/libros', async (req, res) => {
   try {
-    const libro = nuevoLibro (req.body)
+    const libro = await agregarLibro (req.body)
     return res.status(200).json(libro);
   } catch (error) {
     return res.status(400).json(error);
@@ -45,7 +45,7 @@ app.post ('/libros', async (req, res) => {
 
 app.get('/libros', async (req, res) => {
   try {
-    const libros = obtenerLibros()
+    const libros = await obtenerLibros()
     return res.status(200).json(libros);
   } catch (error) {
     return res.status(400).json(error);
@@ -54,7 +54,8 @@ app.get('/libros', async (req, res) => {
 
 app.put('/libros', async (req, res) => {
   try {
-    const libro = actualizarLibro()
+    console.log('entre');
+    const libro = await actualizarLibro(req.query.titulo)
     return res.status(200).json(libro);
   } catch (error) {
     return res.status(400).json(error);

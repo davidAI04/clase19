@@ -1,29 +1,31 @@
-const libro = require('../models/libros.model');
+const Libro = require('../models/libros.model');
 
-const nuevoLibro = async (libro) => {
+const agregarLibro = async (nuevoLibro) => {
   let modelo = {
-    titulo: libro.titulo,
-    descripcion: libro.descripcion,
-    publicacion: libro.publicacion,
-    autor: libro.autor
+    titulo: nuevoLibro.titulo,
+    descripcion: nuevoLibro.descripcion,
+    publicacion: nuevoLibro.publicacion,
+    autor: nuevoLibro.autor
   }
-  const nuevoLibro = await new libro(modelo).save();
-  return nuevoLibro;
+  const libroGuardado = await new Libro(modelo).save();
+  console.log('libroGuardado->', libroGuardado);
+  return libroGuardado;
 }
 
 const obtenerLibros = async () => {
-  let libros = await libro.find({}).exec();
+  let libros = await Libro.find({}).exec();
   return libros;
 
 }
 
 const actualizarLibro = async (titulo) => {
-  let libro = await libro.findOneAndUpdate(
+  let libro = await Libro.findOneAndUpdate(
     { titulo },
     { titulo: 'biblia' },
     { new: true }
-  ). exec ()
+  ).exec()
+  return libro
 }
   
 
-module.exports = { nuevoLibro, obtenerLibros, actualizarLibro }
+module.exports = { agregarLibro, obtenerLibros, actualizarLibro }

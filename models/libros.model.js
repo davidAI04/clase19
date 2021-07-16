@@ -11,4 +11,5 @@ const libroSchema = new Schema({
   autor: String
 })
 
-module.export = model('libro', libroSchema);
+
+module.exports = model('Libro', libroSchema);
